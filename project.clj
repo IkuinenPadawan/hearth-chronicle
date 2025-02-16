@@ -8,6 +8,7 @@
                  [ring/ring-core "1.13.0"]
                  [ring/ring-jetty-adapter "1.8.2"]
                  [ring/ring-json "0.5.1"]
+                 [ring-cors "0.1.13"]
                  [compojure "1.7.1"]
                  [com.layerware/hugsql "0.5.3"]
                  [com.github.seancorfield/honeysql "2.6.1270"]]

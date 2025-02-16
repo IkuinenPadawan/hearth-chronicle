@@ -7,22 +7,25 @@
             [ring.adapter.jetty :as jetty]
             [ring.middleware.json :refer [wrap-json-body wrap-json-response]]
             [ring.util.response :as response]
+            [ring.middleware.cors :refer [wrap-cors]]
             [honey.sql :as sql]
             [honey.sql.helpers :as h]))
 
 (defroutes app-routes
-  (GET "/events" [] (handler/get-events))
-  (POST "/events" {body :body} (handler/add-event body))
+  (GET "/api/events" [] (handler/get-events))
+  (POST "/api/events" {body :body} (handler/add-event body))
   (route/not-found {:error "Not found"}))
 
 (def app
   (-> app-routes
       wrap-json-response
-      (wrap-json-body {:keywords? true})))
+      (wrap-json-body {:keywords? true})
+      (wrap-cors :access-control-allow-origin [#"http://localhost:3000"]
+                 :access-control-allow-methods [:get :post :put :delete])))
 
 (defn start-server [port]
   (jetty/run-jetty app {:port port :join? false}))
 
 (defn -main []
-  (println "Starting server on port 3000...")
-  (start-server 3000))
+  (println "Starting server on port 8081")
+  (start-server 8081))
