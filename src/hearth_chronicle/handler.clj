@@ -14,3 +14,18 @@
       response/response
       (response/status 201)
       (response/content-type "application/json")))
+
+(defn delete-event [{:keys [route-params]}]
+  (let [id (Integer/parseInt (:id route-params))]
+    (-> (do (db/delete-event config/db-config {:id id})
+            {:status "Event deleted successfully"})
+        response/response
+        (response/status 200)
+        (response/content-type "application/json"))))
+
+(defn update-event [event]
+  (-> (do (db/update-event config/db-config event)
+          {:status "Event updated successfully"})
+      response/response
+      (response/status 200)
+      (response/content-type "application/json")))
