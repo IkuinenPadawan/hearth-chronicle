@@ -1,44 +1,98 @@
-# hearth-chronicle
+# Hearth Chronicle
 
-FIXME: description
+Hearth Chronicle is a full-stack web application for managing family calendar self-hosted. It allows users to view, add, update, and delete events on a calendar, with a backend built using Clojure and a frontend built with Reagent and FullCalendar.
 
-## Installation
+## Features
 
-Download from http://example.com/FIXME.
+- View events in a monthly calendar view
+- Add, update, and delete events
+- Interactive calendar with date and event click handlers
+- Responsive user interface built with Reagent
+- API backend built using Clojure and Ring
+- PostgreSQL database for event storage
 
-## Usage
+## Future Features
+- Users and authentication
+- Beautiful modern and minimalistic UI
+- Containerization for ease of use
+- Serving the whole app from backend
+- Mobile support
+- Event categories
 
-FIXME: explanation
+## Technologies Used
 
-    $ java -jar hearth-chronicle-0.1.0-standalone.jar [args]
+### Frontend:
+- [Reagent](https://reagent-project.github.io/) for building the user interface
+- [FullCalendar](https://fullcalendar.io/) for interactive calendar functionality
+- [cljs-http](https://github.com/r0man/cljs-http) for HTTP requests
+- [Core.async](https://clojure.github.io/core.async/) for handling asynchronous operations
 
-## Options
+### Backend:
+- [Clojure](https://clojure.org/) for the backend logic
+- [Ring](https://ring-clojure.github.io/ring/) for web server and routing
+- [Compojure](https://github.com/weavejester/compojure) for routing and API endpoints
+- [HugSQL](https://github.com/juxt/hugsql) for SQL query management
+- [PostgreSQL](https://www.postgresql.org/) for data storage
 
-FIXME: listing of options this app accepts.
+## Start Developing
 
-## Examples
+### Prerequisites
 
-...
+Ensure you have the following tools installed:
 
-### Bugs
+- [Java](https://www.java.com/en/download/)
+- [Leiningen](https://leiningen.org/)
+- [Node.js](https://nodejs.org/)
+- [npm](https://www.npmjs.com/)
+- [Docker](https://docs.docker.com/get-started/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
 
-...
+### Backend Setup
 
-### Any Other Sections
-### That You Think
-### Might be Useful
+1. Clone the repository:
 
-## License
+    ```bash
+    git clone https://github.com/yourusername/hearth-chronicle.git
+    cd hearth-chronicle
+    ```
 
-Copyright © 2025 FIXME
+2. Run the database container
 
-This program and the accompanying materials are made available under the
-terms of the Eclipse Public License 2.0 which is available at
-http://www.eclipse.org/legal/epl-2.0.
+```bash
+    docker compose up
+```
 
-This Source Code may also be made available under the following Secondary
-Licenses when the conditions for such availability set forth in the Eclipse
-Public License, v. 2.0 are satisfied: GNU General Public License as published by
-the Free Software Foundation, either version 2 of the License, or (at your
-option) any later version, with the GNU Classpath Exception which is available
-at https://www.gnu.org/software/classpath/license.html.
+3. Install the necessary Clojure dependencies:
+
+    ```bash
+    lein deps
+    ```
+4. Run migrations
+
+```bash
+    lein migratus migrate
+```
+
+5. Run the backend server:
+
+    ```bash
+    lein run
+    ```
+
+   The backend will be running at `http://localhost:8081`.
+
+### Frontend Setup
+
+1. Install Node.js dependencies:
+
+    ```bash
+    npm install
+    ```
+
+2. Build the frontend using Shadow-CLJS:
+
+    ```bash
+    npx shadow-cljs watch app
+    ```
+
+3. The frontend will be available at `http://localhost:3000`.
