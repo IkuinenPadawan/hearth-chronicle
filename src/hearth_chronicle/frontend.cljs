@@ -14,7 +14,7 @@
 
 (defn fetch-events []
   (go
-    (let [response (<! (http/get "http://localhost:8081/api/events" {:with-credentials? false}))]
+    (let [response (<! (http/get "/api/events" {:with-credentials? false}))]
       (when (= 200 (:status response))
         (let [transformed-events (map (fn [event]
                                       {:id (:id event)
@@ -69,8 +69,8 @@
               :on-click (fn []
                          (go
                            (let [url (if @editing?
-                                      (str "http://localhost:8081/api/events/" (:id @new-event))
-                                      "http://localhost:8081/api/events")
+                                      (str "/api/events/" (:id @new-event))
+                                      "/api/events")
                                  method (if @editing? http/put http/post)
                                  response (<! (method url
                                                     {:with-credentials? false
@@ -92,7 +92,7 @@
                            (when (js/confirm "Are you sure you want to delete this event?")
                              (go
                                (let [response (<! (http/delete 
-                                                  (str "http://localhost:8081/api/events/" 
+                                                  (str "/api/events/" 
                                                        (:id @new-event))
                                                   {:with-credentials? false}))]
                                  (when (= 200 (:status response))

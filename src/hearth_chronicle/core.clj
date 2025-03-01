@@ -6,10 +6,14 @@
             [hearth-chronicle.handler :as handler]
             [ring.adapter.jetty :as jetty]
             [ring.middleware.json :refer [wrap-json-body wrap-json-response]]
-            [ring.util.response :as response]
+            [ring.middleware.resource :refer [wrap-resource]]
             [ring.middleware.cors :refer [wrap-cors]]
+            [ring.middleware.content-type :refer [wrap-content-type]]
+            [ring.middleware.not-modified :refer [wrap-not-modified]]
+            [ring.util.response :as response]
             [honey.sql :as sql]
-            [honey.sql.helpers :as h]))
+            [honey.sql.helpers :as h])
+  (:gen-class))
 
 (defroutes app-routes
   (GET "/api/events" [] (handler/get-events))
@@ -17,13 +21,17 @@
   (PUT "/api/events/:id" {body :body {id :id} :route-params} 
        (handler/update-event (assoc body :id (Integer/parseInt id))))
   (DELETE "/api/events/:id" request (handler/delete-event request))
+  (GET "/*" [] (response/resource-response "public/index.html"))
   (route/not-found {:error "Not found"}))
 
 (def app
   (-> app-routes
+      (wrap-resource "public")
+      wrap-content-type
+      wrap-not-modified
       wrap-json-response
       (wrap-json-body {:keywords? true})
-      (wrap-cors :access-control-allow-origin [#"http://localhost:3000"]
+      (wrap-cors :access-control-allow-origin [#".*"]
                  :access-control-allow-headers ["Content-Type"]
                  :access-control-allow-methods [:get :post :put :delete])))
 
