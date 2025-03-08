@@ -1,10 +1,19 @@
 (ns hearth-chronicle.handler
   (:require [hearth-chronicle.db.queries :as db]
             [hearth-chronicle.config :as config]
-            [ring.util.response :as response]))
+            [ring.util.response :as response]
+            [clojure.string :as str]))
+
+;; Helper function to convert date keys to ISO format strings
+(defn format-event-dates [event]
+  (if (:date event)
+    (update event :date str)  ;; Ensure date is a string in ISO format
+    event))
 
 (defn get-events []
   (-> (db/get-events config/db-config)
+      ;; Map over events to ensure dates are formatted correctly
+      (->> (map format-event-dates))
       response/response
       (response/content-type "application/json")))
 
